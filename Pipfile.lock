@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "702ad05de9bc9de99a4807c8dde1686f31e0041d7b5f6f6b74861195a52110f5"
+            "sha256": "4bf1de522df30c77f3afc12da58dd8cc4c277184e53d03b1b7a28e495ba72be5"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -15,6 +15,10 @@
             }
         ]
     },
-    "default": {},
+    "default": {
+        "medical-chatbot": {
+            "version": "==0.1.0"
+        }
+    },
     "develop": {}
 }
