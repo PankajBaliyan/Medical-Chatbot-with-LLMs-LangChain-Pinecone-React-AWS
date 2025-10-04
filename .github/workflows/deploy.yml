@@ -16,15 +16,15 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Step 2: Set up Node.js environment
+      # Step 2: Set up a Node.js environment
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "20"  # Adjust the Node.js version if needed
           cache: 'npm'
-          cache-dependency-path: app/package-lock.json  # Cache scoped to app/ for faster installs
+          cache-dependency-path: app/package-lock.json  # Cache scoped to app/ for faster installations
 
-      # Step 3: Create .env.production file with GitHub Secrets (inside app/)
+      # Step 3: Create a.env.production file with GitHub Secrets (inside app/)
       - name: Create .env.production file
         run: |
           cd app
@@ -32,7 +32,7 @@ jobs:
 
       # Step 4: Install dependencies (in app/ only)
       - name: Install dependencies
-        run: cd app && npm ci  # Use 'npm ci' for cleaner, faster installs in CI
+        run: cd app && npm ci  # Use 'npm ci' for cleaner, faster installations in CI
 
       # Step 5: Build the Vite app (in app/ only)
       - name: Build project
@@ -40,7 +40,7 @@ jobs:
 
       # Step 6: Clean remote folder except .htaccess
       - name: Clean remote folder except .htaccess
-        uses: appleboy/ssh-action@v1.0.3  # Updated to latest stable version
+        uses: appleboy/ssh-action@v1.0.3  # Updated to the latest stable version
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
@@ -60,7 +60,7 @@ jobs:
 
       # Step 7: Upload the build folder to the server via SFTP
       - name: Upload via SFTP
-        uses: appleboy/scp-action@v1.0.3  # Updated to latest stable version
+        uses: appleboy/scp-action@v1.0.0  # Updated to the latest stable version
         with:
           host: ${{ secrets.SERVER_HOST }}  # Server's IP address or hostname (set in GitHub Secrets)
           username: ${{ secrets.SERVER_USER }}  # SFTP username (set in GitHub Secrets)
@@ -73,7 +73,7 @@ jobs:
 
       # Step 8: Post-upload message
       - name: Post-upload message
-        uses: appleboy/ssh-action@v1.0.3  # Updated to latest stable version
+        uses: appleboy/ssh-action@v1.0.3  # Updated to the latest stable version
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
