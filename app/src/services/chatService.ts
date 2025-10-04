@@ -1,6 +1,7 @@
 import Axios from "axios";
 
-const API_URL = "http://127.0.0.1:8000/api/chat";
+// import api url from env file
+const API_URL = import.meta.env.VITE_APP_API_URL + "/api/chat";
 
 export const sendMessage = async (query: string): Promise<string> => {
   try {
