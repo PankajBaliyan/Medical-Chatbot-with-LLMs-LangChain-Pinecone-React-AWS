@@ -1,4 +1,4 @@
-name: Build and Deploy Medical Chatbot App (Production)
+name: Build and Deploy Medical Chatbot App (Production) - Fast API + Vite
 
 on:
   push:
