@@ -7,4 +7,5 @@ langchain-pinecone==0.2.8
 langchain-openai==0.3.24
 langchain-community==0.3.26
 uvicorn==0.37.0
+fastapi==0.118.0
 -e .
