@@ -38,6 +38,10 @@ jobs:
       - name: Build project
         run: cd app && npm run build  # This will generate the production build in app/dist/
 
+#      Print file structure (debug)
+      - name: Print file structure
+        run: ls -la
+
       # Step 6: Clean remote folder except .htaccess
       - name: Clean remote folder except .htaccess
         uses: appleboy/ssh-action@v1.2.2  # Updated to the latest stable version
@@ -66,9 +70,9 @@ jobs:
           username: ${{ secrets.SERVER_USER }}  # SFTP username (set in GitHub Secrets)
           password: ${{ secrets.SERVER_PASSWORD }}  # SFTP password (set in GitHub Secrets)
           port: 65002  # Specify your custom port here
-          source: "app/dist/*"  # Local build folder (Vite outputs to app/dist/)
-          target: "domains/pankajdev.in/public_html/medical-chatbot/"  # Remote folder where you want to deploy the files
-          strip_components: 0 # No stripping—source already points to contents
+          source: "app/dist/"  # Local build folder (Vite outputs to app/dist/)
+          target: "domains/pankajdev.in/public_html/medical-chatbot"  # Remote folder where you want to deploy the files
+          strip_components: 1 # No stripping—source already points to contents
           debug: true  # Enable debug output to help troubleshoot issues
 
       # Step 8: Post-upload message
