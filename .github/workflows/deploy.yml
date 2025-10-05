@@ -67,7 +67,7 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}  # SFTP password (set in GitHub Secrets)
           port: 65002  # Specify your custom port here
           source: "app/dist/*"  # Local build folder (Vite outputs to app/dist/)
-          target: "domains/pankajdev.in/public_html/medical-chatbot"  # Remote folder where you want to deploy the files
+          target: "domains/pankajdev.in/public_html/medical-chatbot/"  # Remote folder where you want to deploy the files
           strip_components: 1  # Ensures the dist/ contents are uploaded directly (flattens structure)
           debug: true  # Enable debug output to help troubleshoot issues
 
