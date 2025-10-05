@@ -1,0 +1,7 @@
+app/
+data/
+research/
+.github/
+node_modules/
+*.log
+__pycache__/
