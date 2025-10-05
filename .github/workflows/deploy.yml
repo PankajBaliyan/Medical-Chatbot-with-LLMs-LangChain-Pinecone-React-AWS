@@ -24,16 +24,6 @@ jobs:
           cache: 'npm'
           cache-dependency-path: app/package-lock.json  # Cache scoped to app/ for faster installations
 
-            # NEW: Debug - List files in src/lib/ to confirm utils.ts exists
-      - name: "Debug: Check src/lib/ contents"
-        run: |
-         cd app
-         echo "📁 Contents of app/src/:"
-         ls -la src/
-         echo "📂 Contents of app/src/lib/:"
-         ls -la src/lib/ || echo "❌ src/lib/ directory missing!"
-         echo "🔍 Does utils.ts exist? $(test -f src/lib/utils.ts && echo 'Yes ✅' || echo 'No ❌')"
-
       # Step 3: Create a.env.production file with GitHub Secrets (inside app/)
       - name: Create .env.production file
         run: |
