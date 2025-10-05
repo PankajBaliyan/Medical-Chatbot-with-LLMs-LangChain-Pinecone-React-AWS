@@ -4,8 +4,8 @@ on:
   push:
     branches:
       - main  # Trigger deployment on push to the main branch
-    paths:
-      - 'app/**'  # Only run on changes in app/ folder and subpaths
+#    paths:
+#      - 'app/**'  # Only run on changes in app/ folder and subpaths
 
 jobs:
   build-and-deploy:
@@ -23,6 +23,16 @@ jobs:
           node-version: "20"  # Adjust the Node.js version if needed
           cache: 'npm'
           cache-dependency-path: app/package-lock.json  # Cache scoped to app/ for faster installations
+
+            # NEW: Debug - List files in src/lib/ to confirm utils.ts exists
+      - name: "Debug: Check src/lib/ contents"
+        run: |
+         cd app
+         echo "📁 Contents of app/src/:"
+         ls -la src/
+         echo "📂 Contents of app/src/lib/:"
+         ls -la src/lib/ || echo "❌ src/lib/ directory missing!"
+         echo "🔍 Does utils.ts exist? $(test -f src/lib/utils.ts && echo 'Yes ✅' || echo 'No ❌')"
 
       # Step 3: Create a.env.production file with GitHub Secrets (inside app/)
       - name: Create .env.production file
