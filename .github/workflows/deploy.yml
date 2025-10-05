@@ -60,7 +60,7 @@ jobs:
 
       # Step 7: Upload the build folder to the server via SFTP
       - name: Upload via SFTP
-        uses: appleboy/scp-action@v1.0.0  # Updated to the latest stable version
+        uses: appleboy/scp-action@master  # Using the latest version of scp-action
         with:
           host: ${{ secrets.SERVER_HOST }}  # Server's IP address or hostname (set in GitHub Secrets)
           username: ${{ secrets.SERVER_USER }}  # SFTP username (set in GitHub Secrets)
@@ -68,7 +68,7 @@ jobs:
           port: 65002  # Specify your custom port here
           source: "app/dist/*"  # Local build folder (Vite outputs to app/dist/)
           target: "domains/pankajdev.in/public_html/medical-chatbot/"  # Remote folder where you want to deploy the files
-          strip_components: 1  # Ensures the dist/ contents are uploaded directly (flattens structure)
+          strip_components: 0 # No stripping—source already points to contents
           debug: true  # Enable debug output to help troubleshoot issues
 
       # Step 8: Post-upload message
