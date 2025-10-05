@@ -39,9 +39,9 @@ jobs:
         run: cd app && npm run build  # This will generate the production build in app/dist/
 
 #      Print file structure (debug)
-      - name: Print file structure
-        run: ls -la # Print root folder contents
-        working-directory: app/ # Change working directory to app/
+#      - name: Print file structure
+#        run: ls -la # Print root folder contents
+#        working-directory: app/ # Change working directory to app/
 
       # Step 6: Clean remote folder except .htaccess
       - name: Clean remote folder except .htaccess
@@ -62,6 +62,14 @@ jobs:
             else
               echo "❌ Directory does not exist. Please create /domains/pankajdev.in/public_html/medical-chatbot."
             fi
+
+      # Step 6: Verify build folder path and contents
+      - name: Check build folder contents
+        run: |
+          echo "Current working directory: $(pwd)"
+          echo "Full path to source: $(realpath app/dist)"
+          echo "Contents of app/dist:"
+          ls -la app/dist
 
       # Step 7: Upload the build folder to the server via SFTP
       - name: Upload via SFTP
