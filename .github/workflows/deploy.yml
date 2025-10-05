@@ -40,7 +40,8 @@ jobs:
 
 #      Print file structure (debug)
       - name: Print file structure
-        run: ls -la
+        run: ls -la # Print root folder contents
+        working-directory: app/ # Change working directory to app/
 
       # Step 6: Clean remote folder except .htaccess
       - name: Clean remote folder except .htaccess
