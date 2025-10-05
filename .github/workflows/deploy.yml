@@ -4,8 +4,8 @@ on:
   push:
     branches:
       - main  # Trigger deployment on push to the main branch
-#    paths:
-#      - 'app/**'  # Only run on changes in app/ folder and subpaths
+    paths:
+      - 'app/**'  # Only run on changes in app/ folder and subpaths
 
 jobs:
   build-and-deploy:
