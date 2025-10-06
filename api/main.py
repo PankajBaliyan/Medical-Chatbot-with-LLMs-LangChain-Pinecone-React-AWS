@@ -14,12 +14,19 @@ from langchain.chains.combine_documents import create_stuff_documents_chain
 
 app = FastAPI()
 
+# Redirect cache to a writable location in HF Space
+os.environ["HF_HOME"] = "/tmp/hf"
+os.environ["HF_HUB_CACHE"] = "/tmp/hf"
+os.environ["TRANSFORMERS_CACHE"] = "/tmp/hf"
+os.environ["SENTENCE_TRANSFORMERS_HOME"] = "/tmp/hf"
+
 # define cors
 origins = [
     "http://localhost.tiangolo.com",
     "https://localhost.tiangolo.com",
     "http://localhost",
     "http://localhost:8080",
+    "https://medical-chatbot.pankajdev.in/"
 ]
 
 app.add_middleware(

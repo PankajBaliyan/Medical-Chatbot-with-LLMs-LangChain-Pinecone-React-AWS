@@ -28,6 +28,9 @@ EXPOSE 7860
 ENV PORT=7860
 ENV PYTHONUNBUFFERED=1
 
+# Download model weights during build to avoid doing it at runtime
+RUN python3 -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')"
+
 # Launch FastAPI app
 # 👇 Updated entry path to match your project layout (`api/main.py`)
 CMD ["python", "-m", "uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "7860"]

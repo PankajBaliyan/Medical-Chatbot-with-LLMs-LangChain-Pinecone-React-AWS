@@ -1,0 +1,25 @@
+1. start orbStack software
+
+2. Create docker image
+docker build -t medical-chatbot .
+
+3. Run docker image
+docker run -d -p 7860:7860 medical-chatbot
+-- it will return a container id
+
+4. Check logs
+docker logs <container id>
+docker logs -f 7f3b6e380e7a98366dde17806413d70ac6104505f25205bb4569eb699cbfbee9
+-- open http://localhost:7860/
+
+5. Stop docker image
+docker stop <container id>
+
+6. Remove docker image
+docker rm <container id>
+
+7. Check docker images
+docker images
+
+8. Check docker containers
+docker ps -a
