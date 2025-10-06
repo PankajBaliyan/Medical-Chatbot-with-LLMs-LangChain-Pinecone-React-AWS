@@ -2,6 +2,7 @@ import os
 from fastapi import FastAPI
 from pydantic import BaseModel
 from dotenv import load_dotenv
+from functools import lru_cache
 from langchain_openai import ChatOpenAI
 from api.src.prompt import system_prompt
 from fastapi.middleware.cors import CORSMiddleware
@@ -40,42 +41,37 @@ OPENAI_API_KEY=os.environ.get('OPENAI_API_KEY')
 os.environ["PINECONE_API_KEY"] = PINECONE_API_KEY
 os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
 
-embeddings = download_hugging_face_embeddings()
+@lru_cache(maxsize=1)
+def get_rag_chain():
+    embeddings = download_hugging_face_embeddings()
+    index_name = "medical-chatbot"
 
-index_name = "medical-chatbot"
-# Embed each chunk and upsert the embeddings into your Pinecone index.
-docsearch = PineconeVectorStore.from_existing_index(
-    index_name=index_name,
-    embedding=embeddings
-)
+    # Embed each chunk and upsert the embeddings into your Pinecone index.
+    docsearch = PineconeVectorStore.from_existing_index(
+        index_name=index_name,
+        embedding=embeddings
+    )
+    retriever = docsearch.as_retriever(search_type="similarity", search_kwargs={"k": 3})
 
-
-retriever = docsearch.as_retriever(search_type="similarity", search_kwargs={"k":3})
-
-# chatModel = ChatOpenAI(model="gpt-4o")
-chatModel = ChatOpenAI(
-    base_url="https://openrouter.ai/api/v1",  # 👈 important
-    model="openai/gpt-oss-20b:free"
-)
-
-prompt = ChatPromptTemplate.from_messages(
-    [
+    # chatModel = ChatOpenAI(model="gpt-4o")
+    chatModel = ChatOpenAI(
+        base_url="https://openrouter.ai/api/v1",
+        model="openai/gpt-oss-20b:free"
+    )
+    prompt = ChatPromptTemplate.from_messages([
         ("system", system_prompt),
-        ("human", "{input}"),
-    ]
-)
-
-question_answer_chain = create_stuff_documents_chain(chatModel, prompt)
-rag_chain = create_retrieval_chain(retriever, question_answer_chain)
-
-
+        ("human", "{input}")
+    ])
+    question_answer_chain = create_stuff_documents_chain(chatModel, prompt)
+    return create_retrieval_chain(retriever, question_answer_chain)
 
 @app.get("/")
 async def root():
-    return {"message": "Hello World"}
+    return {"message": "FastAPI + Hugging Face Spaces ✅"}
 
 @app.post("/api/chat")
 async def chat(request: ChatRequest):
+    rag_chain = get_rag_chain()
     response = rag_chain.invoke({"input": request.query})
     print("Response : ", response["answer"])
-    return {"message": f"{str(response["answer"])}"}
+    return {"message": str(response["answer"])}
